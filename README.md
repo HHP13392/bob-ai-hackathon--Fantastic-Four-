@@ -11,7 +11,7 @@
 | **Team Name** | [Nexus Four] |
 | **Track** | [AI / DevOps / Sustainability / Open] |
 | **Team Lead** | [Het Patel] — [26ce063@charusat.edu.in] |
-| **Members** | [Dweeja Shingala], [Briva Vachhani], [Yug Vasani] |
+| **Members** | [Dweeja Shingala], [Birva Vachhani], [Yug Vasani] |
 
 ---
 
