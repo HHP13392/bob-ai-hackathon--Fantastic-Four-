@@ -45,9 +45,10 @@ Step:9 - Prevent failures - The maintenance team acts early to reduce outages, e
 
 | Decision | Rationale |
 |---|---|
-| [e.g., Used watsonx.ai for anomaly detection] | [e.g., Pre-trained models reduced time-to-value vs. building from scratch] |
-| [Decision 2] | [Rationale 2] |
-| [Decision 3] | [Rationale 3] |
+|Centralized command-center dashboard| Gives operators one clear view and reduces response time.|
+| Risk classification system | Makes complex asset data simple and prioritizes urgent problems.|
+| Maintenance recommendations | Converts analysis into practical preventive action.
+ |
 
 ## IBM Technologies Used
 
