@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>GridGuard — Grid Intelligence Platform</title>
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ══════════════════════════ SIDEBAR ══════════════════════════════════ -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">GG</div>
+    <div class="logo-text"><strong>GridGuard</strong><small>Grid Intelligence</small></div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">Main</div>
+    <div class="nav-item active" onclick="navigate(this,'command')"><span class="nav-icon">⚡</span> Command Center</div>
+    <div class="nav-item" onclick="navigate(this,'map')"><span class="nav-icon">🗺️</span> Grid Map</div>
+    <div class="nav-item" onclick="navigate(this,'charts')"><span class="nav-icon">📊</span> Sensor Charts</div>
+    <div class="nav-item" onclick="navigate(this,'watchlist')"><span class="nav-icon">📋</span> Asset Watchlist</div>
+    <div class="nav-item" onclick="navigate(this,'weather')"><span class="nav-icon">🌩️</span> Weather &amp; Risk</div>
+    <div class="nav-item" onclick="navigate(this,'crew')"><span class="nav-icon">👷</span> Crew Planner</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-label">System</div>
+    <div class="nav-item" onclick="navigate(this,'risk')"><span class="nav-icon">⚙️</span> Risk Engine</div>
+    <div class="nav-item" onclick="navigate(this,'about')"><span class="nav-icon">ℹ️</span> About Project</div>
+  </div>
+  <div class="sidebar-foot"><div class="pulse-dot"></div> Live feed active</div>
+</aside>
+
+<!-- ══════════════════════════ TOPBAR ════════════════════════════════════ -->
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="hamburger" onclick="openSidebar()"><span></span><span></span><span></span></button>
+    <div>
+      <div class="topbar-title" id="topbar-title">⚡ Command Center</div>
+      <div class="topbar-sub">Real-time grid risk monitoring</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <span class="clock" id="clock">—</span>
+    <span class="alert-chip" id="alert-chip">3 CRITICAL</span>
+    <button class="btn btn-primary" onclick="reloadData()">↺ Refresh</button>
+  </div>
+</header>
+
+<!-- ══════════════════════════ MAIN ══════════════════════════════════════ -->
+<main class="main">
+
+<!-- ═══════════════ PAGE: COMMAND CENTER ════════════════════════════════ -->
+<div class="page active" id="page-command">
+  <div class="page-header">
+    <h1>Command Center</h1>
+    <p>Live overview — asset risk scores, sensor alerts, and maintenance priorities.</p>
+  </div>
+
+  <div id="state-loading" class="state-wrap">
+    <div class="spinner"></div>
+    <div class="state-title">Loading grid data…</div>
+    <div class="state-sub">Connecting to backend API</div>
+  </div>
+  <div id="state-error" class="state-wrap" style="display:none">
+    <div style="font-size:32px">⚠️</div>
+    <div class="state-title">Unable to connect to server.</div>
+    <div class="state-sub">Check your network and try again.</div>
+    <button class="btn btn-primary" onclick="reloadData()">Retry</button>
+  </div>
+
+  <div id="state-dashboard" style="display:none">
+
+    <!-- KPI cards + Readiness Donut -->
+    <div class="kpi-donut-row">
+
+      <!-- Left: 2×2 KPI grid -->
+      <div class="metric-grid">
+        <div class="metric-card mc-blue"><span class="metric-badge">📡</span><div class="metric-label">Assets Monitored</div><div class="metric-value" id="m-assets">—</div><div class="metric-note">Across all grid zones</div></div>
+        <div class="metric-card mc-red"><span class="metric-badge">🔴</span><div class="metric-label">Critical Assets</div><div class="metric-value" id="m-critical">—</div><div class="metric-note">Requiring immediate action</div></div>
+        <div class="metric-card mc-orange"><span class="metric-badge">🌩️</span><div class="metric-label">Weather Alerts</div><div class="metric-value" id="m-weather">—</div><div class="metric-note">Active severe events</div></div>
+        <div class="metric-card mc-green"><span class="metric-badge">👷</span><div class="metric-label">Crews to Position</div><div class="metric-value" id="m-crews">—</div><div class="metric-note">Pre-positioned / dispatched</div></div>
+      </div>
+
+      <!-- Right: Readiness Distribution Donut -->
+      <div class="donut-card">
+        <div class="donut-title">Readiness distribution</div>
+        <div class="donut-wrap">
+          <canvas id="donut-canvas" width="150" height="150"></canvas>
+          <div class="donut-center">
+            <div class="donut-total" id="donut-total">—</div>
+            <div class="donut-sub">Assets</div>
+          </div>
+        </div>
+        <div class="donut-legend">
+          <div class="donut-legend-item">
+            <div class="donut-legend-left"><div class="donut-legend-dot" style="background:#ef4444"></div>Critical</div>
+            <div class="donut-legend-count" id="dl-critical" style="color:#ef4444">—</div>
+          </div>
+          <div class="donut-legend-item">
+            <div class="donut-legend-left"><div class="donut-legend-dot" style="background:#f97316"></div>High</div>
+            <div class="donut-legend-count" id="dl-high" style="color:#f97316">—</div>
+          </div>
+          <div class="donut-legend-item">
+            <div class="donut-legend-left"><div class="donut-legend-dot" style="background:#eab308"></div>Medium</div>
+            <div class="donut-legend-count" id="dl-medium" style="color:#eab308">—</div>
+          </div>
+          <div class="donut-legend-item">
+            <div class="donut-legend-left"><div class="donut-legend-dot" style="background:#22c55e"></div>Low</div>
+            <div class="donut-legend-count" id="dl-low" style="color:#22c55e">—</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /kpi-donut-row -->
+
+    <!-- Analytics row -->
+    <div class="section-title">Live Analytics &amp; Risk Analysis</div>
+    <div class="analytics-row">
+      <div class="charts-panel">
+        <div class="chart-card" style="background:#0d1425;border-color:#1a2640">
+          <div class="chart-card-head">
+            <h4 style="font-size:14px">Grid Risk Activity</h4>
+            <div class="chart-legend">
+              <div class="chart-legend-item"><div class="chart-legend-dot" style="background:linear-gradient(to bottom,#06b6d4,#3b82f6)"></div>Normal</div>
+              <div class="chart-legend-item"><div class="chart-legend-dot" style="background:linear-gradient(to bottom,#f87171,#7f1d1d)"></div>Critical</div>
+            </div>
+          </div>
+          <canvas class="chart-cv" id="chart-bar" height="200"></canvas>
+        </div>
+        <div class="chart-card">
+          <div class="chart-card-head">
+            <h4>📈 Risk Trend — Last 7 Hours (T-802)</h4>
+            <div class="chart-legend">
+              <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#3b82f6"></div>Weather Severity</div>
+              <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ef4444"></div>Failure Probability</div>
+            </div>
+          </div>
+          <canvas class="chart-cv" id="chart-trend" height="140"></canvas>
+        </div>
+      </div>
+      <div class="analysis-panel">
+        <div class="analysis-head"><h4>🔍 Risk Analysis</h4><p>Top assets by composite risk score — click to inspect</p></div>
+        <div class="analysis-body" id="analysis-body"></div>
+        <div class="analysis-footer"><div class="af-dot"></div> Auto-updates every 30 seconds</div>
+      </div>
+    </div>
+
+    <!-- Problem cards -->
+    <div class="section-title">Problems GridGuard Solves</div>
+    <div class="problem-grid">
+      <div class="problem-card"><div class="problem-card-head"><div class="problem-icon-wrap">🔕</div><h3>No Early Warning</h3></div><div class="problem-before">Faults are detected after the outage.</div><div class="problem-after"><span class="solution-tag">GridGuard</span>Provides predictive alerts before failure.</div></div>
+      <div class="problem-card"><div class="problem-card-head"><div class="problem-icon-wrap">🔧</div><h3>Reactive Maintenance</h3></div><div class="problem-before">Maintenance currently starts after breakdown.</div><div class="problem-after"><span class="solution-tag">GridGuard</span>Prioritizes inspections before failure.</div></div>
+      <div class="problem-card"><div class="problem-card-head"><div class="problem-icon-wrap">🗂️</div><h3>Fragmented Data</h3></div><div class="problem-before">Weather, SCADA, load, and maintenance history are separated.</div><div class="problem-after"><span class="solution-tag">GridGuard</span>Combines them into one unified risk picture.</div></div>
+      <div class="problem-card"><div class="problem-card-head"><div class="problem-icon-wrap">❓</div><h3>No Risk Prioritisation</h3></div><div class="problem-before">Utilities cannot identify which asset may fail next.</div><div class="problem-after"><span class="solution-tag">GridGuard</span>Ranks assets by risk score and customer impact.</div></div>
+    </div>
+
+    <!-- Asset table -->
+    <div class="section-title">Asset List</div>
+    <div class="table-box">
+      <div class="table-box-head"><h3>All Monitored Assets</h3><input class="table-search" type="text" placeholder="🔍  Search…" oninput="filterTable(this.value)"/></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Location</th><th>Risk</th><th>Customers</th><th>Status</th><th></th></tr></thead>
+          <tbody id="asset-tbody"></tbody>
+        </table>
+      </div>
+      <div id="no-assets-msg" style="display:none" class="state-wrap"><div class="state-title">No assets available.</div><div class="state-sub">No assets match your search.</div></div>
+    </div>
+
+    <!-- Maintenance queue -->
+    <div class="section-title">Maintenance Queue</div>
+    <div class="mq-list" id="mq-list"></div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: GRID MAP ══════════════════════════════════════ -->
+<div class="page" id="page-map">
+  <div class="page-header"><h1>Grid Map</h1><p>Click any asset marker to inspect sensor data and risk analysis.</p></div>
+  <div class="map-tabs">
+    <button class="map-tab active" onclick="setMapTab('map',this)">🗺️ Map View</button>
+    <button class="map-tab" onclick="setMapTab('weather-overlay',this)">🌩️ Weather Overlay</button>
+  </div>
+  <div class="map-layout">
+    <div class="map-wrap">
+      <svg class="map-svg" id="grid-svg" viewBox="0 0 800 520">
+        <defs>
+          <pattern id="gridpat" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path d="M40 0L0 0 0 40" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          </pattern>
+        </defs>
+        <rect width="800" height="520" fill="url(#gridpat)"/>
+        <!-- Zone regions -->
+        <rect x="20" y="20" width="220" height="160" rx="8" fill="rgba(239,68,68,0.04)" stroke="rgba(239,68,68,0.15)" stroke-width="1" stroke-dasharray="4"/>
+        <text x="32" y="42" fill="rgba(239,68,68,0.5)" font-size="10" font-family="system-ui">NORTH-EAST ZONE</text>
+        <rect x="270" y="20" width="240" height="160" rx="8" fill="rgba(249,115,22,0.04)" stroke="rgba(249,115,22,0.12)" stroke-width="1" stroke-dasharray="4"/>
+        <text x="282" y="42" fill="rgba(249,115,22,0.5)" font-size="10" font-family="system-ui">CENTRAL ZONE</text>
+        <rect x="540" y="20" width="240" height="160" rx="8" fill="rgba(59,130,246,0.04)" stroke="rgba(59,130,246,0.12)" stroke-width="1" stroke-dasharray="4"/>
+        <text x="552" y="42" fill="rgba(59,130,246,0.5)" font-size="10" font-family="system-ui">EAST ZONE</text>
+        <rect x="20" y="210" width="330" height="290" rx="8" fill="rgba(234,179,8,0.03)" stroke="rgba(234,179,8,0.1)" stroke-width="1" stroke-dasharray="4"/>
+        <text x="32" y="232" fill="rgba(234,179,8,0.4)" font-size="10" font-family="system-ui">WEST GRID</text>
+        <rect x="380" y="210" width="400" height="290" rx="8" fill="rgba(34,197,94,0.03)" stroke="rgba(34,197,94,0.1)" stroke-width="1" stroke-dasharray="4"/>
+        <text x="392" y="232" fill="rgba(34,197,94,0.4)" font-size="10" font-family="system-ui">SOUTH ZONE</text>
+        <!-- Feeder lines -->
+        <line x1="130" y1="120" x2="390" y2="120" stroke="rgba(59,130,246,0.22)" stroke-width="2" stroke-dasharray="6,3"/>
+        <line x1="390" y1="120" x2="660" y2="120" stroke="rgba(59,130,246,0.22)" stroke-width="2" stroke-dasharray="6,3"/>
+        <line x1="130" y1="120" x2="130" y2="360" stroke="rgba(59,130,246,0.18)" stroke-width="2" stroke-dasharray="6,3"/>
+        <line x1="390" y1="120" x2="390" y2="400" stroke="rgba(59,130,246,0.18)" stroke-width="2" stroke-dasharray="6,3"/>
+        <line x1="660" y1="120" x2="660" y2="360" stroke="rgba(59,130,246,0.18)" stroke-width="2" stroke-dasharray="6,3"/>
+        <line x1="130" y1="360" x2="390" y2="400" stroke="rgba(59,130,246,0.12)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="390" y1="400" x2="660" y2="360" stroke="rgba(59,130,246,0.12)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="260" y1="280" x2="520" y2="300" stroke="rgba(59,130,246,0.1)" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <g id="map-markers"></g>
+      </svg>
+      <div class="map-legend">
+        <h4>Risk Level</h4>
+        <div class="legend-row"><div class="legend-dot" style="background:#ef4444"></div>Critical (80–100)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#f97316"></div>High (60–79)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#eab308"></div>Medium (30–59)</div>
+        <div class="legend-row"><div class="legend-dot" style="background:#22c55e"></div>Low (0–29)</div>
+        <div style="margin-top:8px;border-top:1px solid var(--border);padding-top:8px;font-size:10.5px;color:var(--muted)">⬡ Substation &nbsp;◆ Transformer &nbsp;● Feeder</div>
+      </div>
+    </div>
+    <div class="detail-panel">
+      <div class="detail-head"><h3>Asset Detail</h3><p>Click a map marker to inspect</p></div>
+      <div class="detail-empty" id="detail-empty"><div style="font-size:36px;opacity:.28">📍</div><div>Select a marker to view<br>sensor data &amp; risk analysis</div></div>
+      <div class="detail-content" id="detail-content" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: SENSOR CHARTS ═════════════════════════════════ -->
+<div class="page" id="page-charts">
+  <div class="page-header"><h1>Sensor Charts</h1><p>Historical sensor readings and failure probability for the selected asset.</p></div>
+  <div style="margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <span style="font-size:12px;color:var(--muted)">Viewing asset:</span>
+    <span id="chart-asset-label" style="font-size:13px;font-weight:700">T-802 — North-East Transformer</span>
+    <span id="chart-asset-status" class="status-pill sp-Critical">Critical</span>
+    <select id="chart-asset-select" style="margin-left:auto;background:var(--surface2);border:1px solid var(--border);color:var(--text);border-radius:7px;padding:5px 10px;font-size:12px;cursor:pointer" onchange="changeChartAsset(this.value)"></select>
+  </div>
+  <div class="charts-page-grid">
+    <div class="chart-card-lg"><h4>🌡️ Temperature (°C)</h4><p>Transformer core temperature over last 7 hours</p><canvas id="sc-temp" height="140" style="width:100%"></canvas></div>
+    <div class="chart-card-lg"><h4>📳 Vibration (%)</h4><p>Mechanical vibration index over last 7 hours</p><canvas id="sc-vib" height="140" style="width:100%"></canvas></div>
+    <div class="chart-card-lg"><h4>🌩️ Weather Severity (%)</h4><p>Local weather hazard score over last 7 hours</p><canvas id="sc-wx" height="140" style="width:100%"></canvas></div>
+    <div class="chart-card-lg"><h4>⚠️ Failure Probability (%)</h4><p>Composite risk probability over last 7 hours</p><canvas id="sc-fail" height="140" style="width:100%"></canvas></div>
+  </div>
+  <div class="chart-card-lg" style="margin-bottom:0">
+    <h4>📈 Risk Trend — Weather Severity vs Failure Probability</h4>
+    <p style="margin-bottom:12px">As weather worsens + sensors become abnormal → failure probability increases</p>
+    <div style="display:flex;gap:18px;margin-bottom:12px">
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#3b82f6"></div><span style="font-size:12px;color:var(--muted)">Weather Severity</span></div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#ef4444"></div><span style="font-size:12px;color:var(--muted)">Failure Probability</span></div>
+    </div>
+    <canvas id="sc-trend" height="160" style="width:100%"></canvas>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: ASSET WATCHLIST ════════════════════════════════ -->
+<div class="page" id="page-watchlist">
+  <div class="page-header"><h1>Asset Watchlist</h1><p>All monitored assets sorted by risk — click any row to view full details.</p></div>
+  <div class="table-box">
+    <div class="table-box-head"><h3>All Assets</h3><input class="table-search" type="text" placeholder="🔍  Search…" oninput="filterWatchlist(this.value)"/></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Type</th><th>Location</th><th>Temp</th><th>Vib</th><th>WX</th><th>Risk</th><th>Customers</th><th>Status</th></tr></thead><tbody id="watchlist-tbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PAGE: WEATHER & RISK ════════════════════════════════ -->
+<div class="page" id="page-weather">
+  <div class="page-header"><h1>Weather &amp; Risk</h1><p>Active weather events and their effect on asset risk scores.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:28px" id="wx-cards"></div>
+  <div class="section-title">Weather-Affected Assets</div>
+  <div id="wx-asset-list" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+
+<!-- ═══════════════ PAGE: CREW PLANNER ══════════════════════════════════ -->
+<div class="page" id="page-crew">
+  <div class="page-header"><h1>Crew Planner</h1><p>Pre-position maintenance crews based on priority maintenance queue.</p></div>
+  <div id="crew-list" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
+
+<!-- ═══════════════ PAGE: RISK ENGINE ═══════════════════════════════════ -->
+<div class="page" id="page-risk">
+  <div class="page-header"><h1>Risk Engine</h1><p>Weighted formula, live simulation, backend procedures, and test suite.</p></div>
+
+  <div class="risk-page-grid">
+    <div class="risk-card">
+      <h3>⚙️ Risk Formula — T-802 Example</h3>
+      <div id="formula-rows"></div>
+      <div class="formula-total">
+        <span style="font-size:12px;color:var(--muted)">Composite Risk Score</span>
+        <span style="font-size:24px;font-weight:900" id="formula-total" class="sp-Critical">—</span>
+      </div>
+    </div>
+    <div class="risk-card">
+      <h3>📋 Risk Status Logic</h3>
+      <div class="code-block"><span class="kw">function</span> <span class="fn">getRiskStatus</span>(score: <span class="tp">number</span>) {
+  <span class="kw">if</span> (score &gt;= <span class="nm">80</span>) <span class="kw">return</span> <span class="st">"Critical"</span>;
+  <span class="kw">if</span> (score &gt;= <span class="nm">60</span>) <span class="kw">return</span> <span class="st">"High"</span>;
+  <span class="kw">if</span> (score &gt;= <span class="nm">30</span>) <span class="kw">return</span> <span class="st">"Medium"</span>;
+  <span class="kw">return</span> <span class="st">"Low"</span>;
+}
+
+<span class="kw">function</span> <span class="fn">getRecommendation</span>(asset: <span class="tp">Asset</span>) {
+  <span class="kw">if</span> (asset.riskScore &gt;= <span class="nm">80</span>)
+    <span class="kw">return</span> <span class="st">"Inspect immediately. Pre-position a crew."</span>;
+  <span class="kw">if</span> (asset.riskScore &gt;= <span class="nm">60</span>)
+    <span class="kw">return</span> <span class="st">"Schedule inspection within 12 hours."</span>;
+  <span class="kw">if</span> (asset.riskScore &gt;= <span class="nm">30</span>)
+    <span class="kw">return</span> <span class="st">"Inspect during next cycle."</span>;
+  <span class="kw">return</span> <span class="st">"Continue normal maintenance."</span>;
+}</div>
+    </div>
+  </div>
+
+  <div class="section-title">⚡ Live Simulation</div>
+  <div class="sim-cards-grid" id="sim-cards"></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <button class="sim-btn" id="sim-toggle" onclick="toggleSim()">▶ Start Simulation</button>
+    <span id="sim-label" style="font-size:12px;color:var(--muted)">Idle — sensors update every 3 seconds in demo (30s in production)</span>
+  </div>
+  <div class="code-block" style="margin-bottom:28px"><span class="cm">// Live refresh — trpc.grid.getOverview</span>
+<span class="kw">const</span> overview = trpc.grid.getOverview.<span class="fn">useQuery</span>(undefined, {
+  refetchInterval: <span class="nm">30000</span>, <span class="cm">// 30s live refresh</span>
+});
+<span class="cm">// Server-side simulation loop (server/risk.ts)</span>
+<span class="fn">setInterval</span>(() =&gt; {
+  updateSensorValues();   <span class="cm">// ±random drift on temp, vib, wx</span>
+  recalculateRisk();      <span class="cm">// weighted formula re-runs</span>
+  checkAlertThresholds(); <span class="cm">// status → Critical triggers alert</span>
+}, <span class="nm">30000</span>);</div>
+
+  <div class="section-title">✅ Backend Test Suite — grid.test.ts</div>
+  <div class="test-list" id="test-list" style="margin-bottom:14px"></div>
+  <button class="sim-btn" style="background:var(--purple);color:#fff" onclick="runTests()">▶ Run All Tests</button>
+
+  <div class="section-title" style="margin-top:28px">📋 System Log</div>
+  <div class="log-box" id="log-box"></div>
+</div>
+
+<!-- ═══════════════ PAGE: ABOUT ══════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="page-header"><h1>About GridGuard</h1><p>Architecture, team structure, and tRPC integration overview.</p></div>
+  <div style="max-width:680px;display:flex;flex-direction:column;gap:16px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px">
+      <p style="line-height:1.85;color:var(--muted);font-size:13.5px">GridGuard is a predictive grid resilience platform that ingests sensor telemetry, weather forecasts, and maintenance history to produce per-asset risk scores in real time. Operators shift from reactive to preventive maintenance — cutting outage duration, protecting revenue, and keeping customers connected.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Member 1</div><div style="font-weight:700;margin-top:5px">Frontend Dashboard</div></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Member 2</div><div style="font-weight:700;margin-top:5px">Map, Charts &amp; Asset Details</div></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Member 3</div><div style="font-weight:700;margin-top:5px">Backend &amp; Database</div></div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Member 4</div><div style="font-weight:700;margin-top:5px">Risk Logic &amp; Simulation</div></div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px">
+      <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px">Shared Data Contract</div>
+      <div class="code-block"><span class="kw">type</span> <span class="tp">Asset</span> = {
+  id:                <span class="tp">string</span>;
+  name:              <span class="tp">string</span>;
+  type:              <span class="st">"Transformer" | "Substation" | "Feeder"</span>;
+  location:          <span class="tp">string</span>;
+  temperature:       <span class="tp">number</span>;
+  vibration:         <span class="tp">number</span>;
+  weatherSeverity:   <span class="tp">number</span>;
+  customerImpact:    <span class="tp">number</span>;
+  previousFailures:  <span class="tp">number</span>;
+  riskScore:         <span class="tp">number</span>;
+  status:            <span class="st">"Critical" | "High" | "Medium" | "Low"</span>;
+  recommendedAction: <span class="tp">string</span>;
+};</div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- ══════════════════════════ MODAL ══════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-head"><div><h2 id="modal-title">—</h2><p id="modal-sub">—</p></div><button class="modal-close" onclick="closeModal()">✕</button></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
