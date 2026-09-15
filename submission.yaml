@@ -64,7 +64,7 @@ No IBM technology integration — if submitted to an IBM-specific hackathon, thi
 # =============================================================================
 artifacts:
   source_code: "src/"
-  setup_guide: "docs/setup-guide.md"
+  setup_guide: "https://github.com/HHP13392/bob-ai-hackathon--Nexus-Four-/edit/main/docs/setup-guide.md"
   architecture_doc: "docs/architecture.md"
   demo_video: "demo/demo-video-link.txt"   # URL to hosted video (YouTube, Loom, Box)
   live_demo: "demo/live-demo-url.txt"      # URL to deployed demo (optional)
