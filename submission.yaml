@@ -67,6 +67,6 @@ artifacts:
   setup_guide: "github.com/HHP13392/bob-ai-hackathon--Nexus-Four-/edit/main/docs/setup-guide.md"
   architecture_doc: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/docs/architecture.md"
   demo_video: "https://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/demo-video-link.txt"   # URL to hosted video (YouTube, Loom, Box)
-  live_demo: "http://gridguard-sd8wtggz.manus.space"       # URL to deployed demo (optional)
+  live_demo: "https://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/demo-video-link.txt"       # URL to deployed demo (optional)
   screenshots: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/tree/main/demo/screenshots"
   presentation: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/tree/main/presentation"
