@@ -6,12 +6,19 @@ GridGuard is an AI-ready predictive maintenance command center that transforms g
 
 ## How It Works
 
-[Explain the core mechanism step by step. A numbered list or simple flow works well here.]
-
-1. [Step 1: e.g., "User connects their GitHub repository via OAuth"]
-2. [Step 2: e.g., "The system ingests pipeline logs and feeds them to watsonx.ai"]
-3. [Step 3: e.g., "An anomaly score is computed and displayed on the dashboard"]
-4. [Step 4: e.g., "Alerts are sent to Slack when the score exceeds a threshold"]
+step:1 - Collect data - GridGuard receives data from grid assets such as substations and transformers.
+step:2 - Check the data - It validates the sensor and asset information.
+Step:3 - Analyze asset condition - It checks temperature, vibration, weather exposure, and recent trends.
+Step:4 - Calculate risk score - The system combines these factors to calculate a risk score for each asset.
+Step:5 - Classify the asset - Each asset is marked as:
+         1. Critical
+        2. High
+        3. Medium
+        4. Low
+Step:6 - Show the results - The dashboard displays the most important information for the operator.
+Step:7 - Identify priority assets - GridGuard highlights the assets that need attention first.
+Step:8 - Recommend an action - It suggests actions such as inspecting equipment or sending a maintenance crew.
+Step:9 - Prevent failures - The maintenance team acts early to reduce outages, equipment damage, and emergency repairs.
 
 ## Architecture Diagram
 
