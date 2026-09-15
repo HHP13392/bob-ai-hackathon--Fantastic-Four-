@@ -108,14 +108,20 @@ cp .env.example .env
 
 > Be honest — judges appreciate transparency over overclaiming.
 
-- [Limitation 1: e.g., "Authentication is mocked — not production-ready"]
-- [Limitation 2: e.g., "Only tested on Chrome"]
-- [Limitation 3: e.g., "Feature X is scaffolded but not fully implemented"]
+- Single-circuit monitoring only — cannot yet monitor multiple rooms/circuits simultaneously
+No appliance-level identification — knows total power consumed but not which device consumed it
+Static tariff calculation — does not yet integrate with Indian state electricity board APIs for real-time slab-based pricing
+No predictive maintenance — detects faults in real-time but cannot yet predict slow degradation before failure
+No native mobile app — relies on web dashboard + Telegram; no iOS/Android push notifications
+No IBM technology integration — if submitted to an IBM-specific hackathon, this would be a gapd"]
 
 ---
 
 ## 🏅 What We're Most Proud Of
 
-[Tell the judges what part of your submission is strongest and worth paying close attention to.]
-
+Successfully running a real-time neural network on a microcontroller for sub-350ms fault detection — a latency no cloud-dependent system can match
+Building an entire end-to-end system (low-level C++ firmware → deployed cloud AI API) as a solo developer
+Achieving 94.7% fault detection accuracy on a model small enough to run on an embedded device
+Engineering Gemini API prompts that produce genuinely insightful, data-grounded energy analysis rather than generic AI responses
+Single-command cloud deployment — full infrastructure-as-code via automated bash script
 ---
