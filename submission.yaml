@@ -63,7 +63,7 @@ No IBM technology integration — if submitted to an IBM-specific hackathon, thi
 # These paths are relative to the repo root. Only change if you moved files.
 # =============================================================================
 artifacts:
-  source_code: "src/"
+  source_code: "https://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/tree/main/src"
   setup_guide: "https://github.com/HHP13392/bob-ai-hackathon--Nexus-Four-/edit/main/docs/setup-guide.md"
   architecture_doc: "https://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/docs/architecture.md"
   demo_video: "https://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/demo-video-link.txt"   # URL to hosted video (YouTube, Loom, Box)
