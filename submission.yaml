@@ -66,7 +66,7 @@ artifacts:
   source_code: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/tree/main/src"
   setup_guide: "github.com/HHP13392/bob-ai-hackathon--Nexus-Four-/edit/main/docs/setup-guide.md"
   architecture_doc: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/docs/architecture.md"
-  demo_video: "http://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/demo-video-link.txt"   # URL to hosted video (YouTube, Loom, Box)
-  live_demo: "http://github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/live%20video.mp4"      # URL to deployed demo (optional)
+  demo_video: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/demo-video-link.txt"   # URL to hosted video (YouTube, Loom, Box)
+  live_demo: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/blob/main/demo/live%20video.mp4"      # URL to deployed demo (optional)
   screenshots: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/tree/main/demo/screenshots"
   presentation: "github.com/HHP13392/bob-ai-hackathon--Fantastic-Four-/tree/main/presentation"
