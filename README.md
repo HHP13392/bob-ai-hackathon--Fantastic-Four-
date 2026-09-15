@@ -8,10 +8,10 @@
 
 | Field | Value |
 |---|---|
-| **Team Name** | [Your Team Name] |
+| **Team Name** | [Nexus Four] |
 | **Track** | [AI / DevOps / Sustainability / Open] |
-| **Team Lead** | [Name] — [email@ibm.com] |
-| **Members** | [Name 1], [Name 2], [Name 3] |
+| **Team Lead** | [Het Patel] — [26ce063@charusat.edu.in] |
+| **Members** | [Dweeja Shingala], [Briva Vachhani], [Yug Vasani] |
 
 ---
 
@@ -19,25 +19,25 @@
 
 > In 2–3 sentences: What problem does your project solve? Who experiences this problem?
 
-[Describe the real-world problem your project addresses. Be specific about who the user is and what pain point they face.]
-
+ Power transformer and substation failures cause blackouts costing utilities $1M+/hour and affecting millions of people. 
+   Most utilities still rely on calendar-based maintenance schedules, even though sensors already measuring temperature, vibration, partial discharge, and oil quality show failure signatures weeks in advance. 
+   Weather events compound the risk, but sensor data and weather forecasts are never combined in time to act.
 ---
 
 ## 💡 Solution
 
 > In 2–3 sentences: What did you build? How does it solve the problem above?
 
-[Describe your solution clearly. Explain the core mechanism — what makes it work.]
+ Shift utilities from reactive/calendar-based maintenance to a predictive, risk-ranked maintenance and response system.
 
 ---
 
 ## ✨ Key Features
 
-- **Feature 1:** [Brief description — e.g., "Real-time anomaly detection using watsonx.ai"]
-- **Feature 2:** [Brief description]
-- **Feature 3:** [Brief description]
-- **Feature 4:** [Optional]
-- **Feature 5:** [Optional]
+- *Real-Time Edge Safety — ESP32-S3 samples voltage/current 50x/sec; on-device TFLite ML model classifies faults (normal/overload/spike); relay cuts power in ~340ms; works completely offline
+Live Cloud Dashboard — Glassmorphism UI showing live voltage, current, power graphs, 7-day usage history, and estimated bill in ₹
+AI Energy Auditor — Google Gemini Pro API analyzes historical sensor data and delivers detailed energy reports via Telegram (Senior Energy Analyst persona)
+AI Chat Assistant — Embedded chat interface grounded in real sensor data; answers user questions with context-aware responses                             
 
 ---
 
@@ -45,11 +45,11 @@
 
 | Category | Technologies |
 |---|---|
-| **Languages** | [e.g., Python, TypeScript] |
-| **Frameworks** | [e.g., FastAPI, React] |
-| **IBM Technologies** | [e.g., watsonx.ai, IBM Bob, IBM Cloud] |
-| **Databases** | [e.g., PostgreSQL, Redis] |
-| **Other** | [e.g., Docker, GitHub Actions] |
+| **Languages** | [ [C++ (firmware), Python (backend/ML), HTML, CSS, JavaScript] |
+| **Frameworks** | [Flask (backend), Keras (ML training), TensorFlow Lite (edge inference), Chart.js (frontend), PlatformIO (firmware toolchain)]   |
+| **IBM Technologies** | [None used — project uses Google technologies (Gemini Pro API, Google Compute Engine)]     |
+| **Databases** | [[SQLite]  |
+| **Other** | [ESP32-S3 microcontroller, ZMPT101B voltage sensor, ACS712 current sensor, 5V safety relay, MQTT (HiveMQ broker), Docker, Docker Compose, Telegram Bot API, REST API, Glassmorphism design system]  |
 
 ---
 
