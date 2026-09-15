@@ -33,7 +33,8 @@ Step:9 - Prevent failures - The maintenance team acts early to reduce outages, e
 
 > See [`architecture.md`](architecture.md) for the detailed diagram.
 
-[Optionally include a simple ASCII or Mermaid diagram here for quick reference.]
+<img width="3120" height="612" alt="image" src="https://github.com/user-attachments/assets/a01be585-936a-4d8e-b397-e1b732a76802" />
+
 
 ```
 [User] → [Frontend: React] → [API: FastAPI] → [watsonx.ai] → [Dashboard]
