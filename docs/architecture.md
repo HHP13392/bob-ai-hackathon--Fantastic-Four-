@@ -2,7 +2,7 @@
 
 ## System Architecture
 
-[GridGuard follows an edge-to-cloud architecture. The important safety operations happen directly on the ESP32-S3, while cloud services are used for monitoring, storage, analytics and AI. This means that a loss of Internet connectivity does not prevent the local safety relay from opera]
+GridGuard follows an edge-to-cloud architecture. The important safety operations happen directly on the ESP32-S3, while cloud services are used for monitoring, storage, analytics and AI. This means that a loss of Internet connectivity does not prevent the local safety relay from opera
 
 ```mermaid
                  ┌──────────────────────────┐
