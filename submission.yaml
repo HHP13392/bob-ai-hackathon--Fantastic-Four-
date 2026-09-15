@@ -7,7 +7,6 @@
 #   - Do NOT rename this file — the evaluation pipeline reads it by name
 #   - Use double quotes around all string values
 # =============================================================================
-
 team:
   name: "Nexus Four"
   track: "AI"
