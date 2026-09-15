@@ -2,7 +2,7 @@
 
 ## What We Built
 
-[Describe your solution in plain language. Avoid jargon — write as if explaining to a smart colleague unfamiliar with your tech stack.]
+GridGuard is an AI-ready predictive maintenance command center that transforms grid sensor and weather data into prioritized operational decisions, helping utility teams prevent failures and improve grid reliability.
 
 ## How It Works
 
