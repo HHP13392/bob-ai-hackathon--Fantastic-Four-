@@ -2,7 +2,7 @@
 
 ## System Architecture
 
-[Describe the overall architecture of your system. Replace the Mermaid diagram below with your actual architecture.]
+[GridGuard follows an edge-to-cloud architecture. The important safety operations happen directly on the ESP32-S3, while cloud services are used for monitoring, storage, analytics and AI. This means that a loss of Internet connectivity does not prevent the local safety relay from opera]
 
 ```mermaid
                  ┌──────────────────────────┐
@@ -82,11 +82,90 @@
 
 [Describe how data moves through your system from input to output.]
 
-1. [e.g., Pipeline logs are ingested via a webhook from GitHub Actions]
-2. [e.g., Logs are preprocessed and chunked into 512-token segments]
-3. [e.g., Each chunk is sent to the watsonx.ai inference endpoint]
-4. [e.g., Anomaly scores are stored in PostgreSQL]
-5. [e.g., The React dashboard polls the API every 30 seconds to refresh]
+┌───────────────┐
+│ Electrical    │
+│ Load          │
+└───────┬───────┘
+        │
+        ▼
+┌────────────────┐
+│ Voltage Sensor │
+│ ZMPT101B       │
+└───────┬────────┘
+        │
+        │
+        ▼
+┌────────────────┐
+│ Current Sensor │
+│ ACS712         │
+└───────┬────────┘
+        │
+        ▼
+┌─────────────────────────┐
+│       ESP32-S3          │
+│                         │
+│ Sensor Processing       │
+│ RMS Calculation         │
+│ Power Calculation       │
+│ ML Classification       │
+└───────────┬─────────────┘
+            │
+            ▼
+      ┌───────────┐
+      │ Decision  │
+      └─────┬─────┘
+            │
+       ┌────┴─────┐
+       │          │
+     NORMAL      FAULT
+       │          │
+       │          ▼
+       │     ┌─────────┐
+       │     │  Relay  │
+       │     │  OFF    │
+       │     └─────────┘
+       │
+       ▼
+┌─────────────────┐
+│ MQTT Broker     │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│ Flask Backend   │
+└────────┬────────┘
+         │
+    ┌────┼───────────┐
+    │    │           │
+    ▼    ▼           ▼
+ SQLite Dashboard  Gemini AI
+    │    │           │
+    │    │           ▼
+    │    │       AI Report
+    │    │           │
+    │    │           ▼
+    │    │       Telegram
+    │    │
+    ▼    ▼
+Historical
+Analytics
+
+
+| Step   | Data Flow                 | Description                                                                                    |
+| ------ | ------------------------- | ---------------------------------------------------------------------------------------------- |
+| **1**  | Electrical Load → Sensors | Electrical voltage and current are measured from the connected load.                           |
+| **2**  | Sensors → ESP32-S3        | Analog sensor signals are collected by the ESP32-S3.                                           |
+| **3**  | ESP32-S3 → Processing     | The ESP32 calculates electrical parameters such as RMS voltage, current and power.             |
+| **4**  | Processing → ML Model     | Electrical measurements are given to the TensorFlow Lite model.                                |
+| **5**  | ML Model → Decision       | The model identifies the operating condition, such as normal, overload or spike.               |
+| **6**  | Decision → Relay          | If a dangerous condition is confirmed, the relay disconnects the electrical load.              |
+| **7**  | ESP32 → MQTT              | Telemetry is packaged and published through MQTT.                                              |
+| **8**  | MQTT → Flask              | The backend receives the telemetry from the MQTT broker.                                       |
+| **9**  | Flask → SQLite            | Measurements and fault information are stored in the database.                                 |
+| **10** | SQLite → Dashboard        | Historical and real-time information is displayed on the web dashboard.                        |
+| **11** | SQLite → Gemini           | Historical energy/fault data can be sent to Gemini for AI analysis.                            |
+| **12** | Gemini → User             | AI-generated analysis/reports are presented to the user and can be delivered through Telegram. |
+
 
 ## Security Considerations
 
