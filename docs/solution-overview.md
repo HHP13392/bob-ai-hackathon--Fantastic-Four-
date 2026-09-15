@@ -51,8 +51,6 @@ Step:9 - Prevent failures - The maintenance team acts early to reduce outages, e
  |
 
 ## IBM Technologies Used
-
-[Explain specifically HOW you used each IBM technology — not just that you used it.]
-
-- **[IBM Tech 1, e.g., watsonx.ai]:** [How it was used — e.g., "Used the `ibm/granite-13b-instruct-v2` model via the Python SDK to classify anomaly types from log text."]
-- **[IBM Tech 2]:** [How it was used]
+- TECHNOLOGY1: IBM watsonx.ai - IBM watsonx.ai can analyze asset data such as temperature, vibration, weather exposure, and historical trends. It helps generate risk explanations and maintenance recommendations.
+  
+- TECHNOLOGY2: IBM Event Streams - IBM Event Streams can receive continuous data from grid sensors and weather services, such as temperature, vibration, equipment status, and alerts.
