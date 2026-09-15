@@ -9,15 +9,16 @@
 # =============================================================================
 
 team:
-  name: "Nexus Four"                             # REQUIRED — e.g., "Orion Squad"
-  track: "AI"                            # REQUIRED — one of: AI | DevOps | Sustainability | Open
+  team:
+  name: "Nexus Four"
+  track: "AI"
   lead:
-    name: "Het Patel"                           # REQUIRED — e.g., "Alice Chen"
-    email: "26ce063@charusat.edu.in"                          # REQUIRED — e.g., "alice.chen@ibm.com"
+    name: "Het Patel"
+    email: "26ce063@charusat.edu.in"
   members:
-    - name: "Dweeja Shingala"                         # REQUIRED — Team member 1
+    - name: "Dweeja Shingala"
       email: "26ce099@charusat.edu.in"
-    - name: "Birva Vachhani"                         # Add more members by copying the two lines above
+    - name: "Birva Vachhani"
       email: "26ce114@charusat.edu.in"
     - name: "Yug Vasani"
       email: "26ce117@charusat.edu.in"
