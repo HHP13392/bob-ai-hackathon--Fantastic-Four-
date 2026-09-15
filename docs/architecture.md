@@ -80,8 +80,6 @@
 
 ## Data Flow
 
-[Describe how data moves through your system from input to output.]
-
 ┌───────────────┐
 │ Electrical    │
 │ Load          │
@@ -149,6 +147,8 @@
     ▼    ▼
 Historical
 Analytics
+
+
 
 
 | Step   | Data Flow                 | Description                                                                                    |
